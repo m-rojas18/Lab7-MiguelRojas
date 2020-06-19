@@ -355,7 +355,17 @@ public class Main_Lab7 extends javax.swing.JFrame {
             //Crear Objeto
             Archivo a = new Archivo(nombre_archivo, link_archivo, extension, tamano, nombre_padre);
             //Agregar a lista archivo
-            root.add(a);
+            //verificar si esta dentro de una carpeta
+            if (jl_listaAgregar.getSelectedIndex() >= 0) {
+                if (root.get(jl_listaAgregar.getSelectedIndex()) instanceof Carpeta) {
+                    ((Carpeta) root.get(jl_listaAgregar.getSelectedIndex())).getLista_archivos().add(a);
+                } else {
+                    root.add(a);
+                }
+            } else {
+                //Si no eligio solo agrega directamente a la lista
+                root.add(a);
+            }
 
             //Refrescar Listas
             refrescarListaPrincipal();
@@ -398,7 +408,17 @@ public class Main_Lab7 extends javax.swing.JFrame {
         //Crear Objeto
         Carpeta c = new Carpeta(nombre_carpeta, link_carpeta, nombre_padre);
         //Agregar a Lista
-        root.add(c);
+        //verificar si esta dentro de una carpeta
+        if (jl_listaAgregar.getSelectedIndex() >= 0) {
+            if (root.get(jl_listaAgregar.getSelectedIndex()) instanceof Carpeta) {
+                ((Carpeta) root.get(jl_listaAgregar.getSelectedIndex())).getLista_carpetas().add(c);
+            } else {
+                root.add(c);
+            }
+        } else {
+            //Si no eligio solo agrega directamente a la lista root
+            root.add(c);
+        }
         //Refrescar Lista
         refrescarListaPrincipal();
         JOptionPane.showMessageDialog(this, "Se creo exitosamente la Carpeta!!");
@@ -470,6 +490,7 @@ public class Main_Lab7 extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private ArrayList root = new ArrayList();
+    Admin_Favoritos af = new Admin_Favoritos("./favoritos.rojas");
 
     public String crearLink(int op, String t) {
 
