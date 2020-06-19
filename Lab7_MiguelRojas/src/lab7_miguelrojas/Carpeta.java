@@ -1,14 +1,16 @@
 package lab7_miguelrojas;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Carpeta {
+public class Carpeta implements Serializable{
 
     private String nombre_carpeta;
     private String link_carpeta;
-    ArrayList <Carpeta>lista_carpetas = new ArrayList();
-    ArrayList<Archivo> lista_archivos = new ArrayList();
+    ArrayList lista_carpetas_archivos = new ArrayList();
     private String nombre_padre;
+    
+    private static final long SerialVersionUID = 555l;
     public Carpeta(){
         
     }
@@ -37,21 +39,17 @@ public class Carpeta {
         this.link_carpeta = link_carpeta;
     }
 
-    public ArrayList<Carpeta> getLista_carpetas() {
-        return lista_carpetas;
+    public ArrayList getLista_carpetas_archivos() {
+        return lista_carpetas_archivos;
     }
 
-    public void setLista_carpetas(ArrayList<Carpeta> lista_carpetas) {
-        this.lista_carpetas = lista_carpetas;
+    public void setLista_carpetas_archivos(ArrayList lista_carpetas_archivos) {
+        this.lista_carpetas_archivos = lista_carpetas_archivos;
     }
 
-    public ArrayList<Archivo> getLista_archivos() {
-        return lista_archivos;
-    }
+    
 
-    public void setLista_archivos(ArrayList<Archivo> lista_archivos) {
-        this.lista_archivos = lista_archivos;
-    }
+    
 
     public String getNombre_padre() {
         return nombre_padre;

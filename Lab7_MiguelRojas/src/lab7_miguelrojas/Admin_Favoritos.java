@@ -68,9 +68,10 @@ public class Admin_Favoritos {
                 ObjectInputStream objeto
                         = new ObjectInputStream(entrada);
                 try {
-                    while ((temp = (Object) objeto.readObject()) != null) {
+                    while ((temp = (Archivo) objeto.readObject()) != null ) {
                         lista_favoritos.add(temp);
-                    }
+                        
+                    } 
                 } catch (EOFException e) {
                     //encontro el final del archivo
                 }

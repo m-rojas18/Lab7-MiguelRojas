@@ -1,12 +1,15 @@
 package lab7_miguelrojas;
 
-public class Archivo {
+import java.io.Serializable;
+
+public class Archivo implements Serializable{
     
     private String nombre_archivo;
     private String link_archivo;
     private String extension;
     private int tamano;
     private String nombre_padre;
+    private static final long SerialVersionUID = 777L;
     
     public Archivo(){
         
