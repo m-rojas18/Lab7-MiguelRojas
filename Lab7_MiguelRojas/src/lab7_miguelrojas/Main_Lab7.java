@@ -38,8 +38,11 @@ public class Main_Lab7 extends javax.swing.JFrame {
         jpmenu_Unidad = new javax.swing.JPopupMenu();
         jmi_moverDestacados = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jpm_Agregar = new javax.swing.JPopupMenu();
+        jmi_CrearCarpeta = new javax.swing.JMenuItem();
+        jmi_CrearArchivo = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
+        jtp_paneles = new javax.swing.JTabbedPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -151,7 +154,24 @@ public class Main_Lab7 extends javax.swing.JFrame {
         jMenuItem2.setText("Mover a Papeleria");
         jpmenu_Unidad.add(jMenuItem2);
 
+        jmi_CrearCarpeta.setText("Crear Nueva Carpeta");
+        jpm_Agregar.add(jmi_CrearCarpeta);
+
+        jmi_CrearArchivo.setText("Subir Archivo");
+        jmi_CrearArchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmi_CrearArchivoActionPerformed(evt);
+            }
+        });
+        jpm_Agregar.add(jmi_CrearArchivo);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jtp_paneles.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jtp_panelesStateChanged(evt);
+            }
+        });
 
         jLabel2.setText("Google Dive");
 
@@ -214,7 +234,7 @@ public class Main_Lab7 extends javax.swing.JFrame {
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("Mi Unidad", jPanel2);
+        jtp_paneles.addTab("Mi Unidad", jPanel2);
 
         jProgressBar4.setString("Favoritos");
         jProgressBar4.setStringPainted(true);
@@ -260,7 +280,7 @@ public class Main_Lab7 extends javax.swing.JFrame {
                 .addContainerGap(43, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("Destacados", jPanel5);
+        jtp_paneles.addTab("Destacados", jPanel5);
 
         jProgressBar5.setString("Papelera");
         jProgressBar5.setStringPainted(true);
@@ -297,7 +317,7 @@ public class Main_Lab7 extends javax.swing.JFrame {
                 .addContainerGap(48, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("Papelera", jPanel6);
+        jtp_paneles.addTab("Papelera", jPanel6);
 
         jpb_seccion4.setString("Agregar");
         jpb_seccion4.setStringPainted(true);
@@ -335,10 +355,6 @@ public class Main_Lab7 extends javax.swing.JFrame {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(115, 115, 115)
-                .addComponent(jpb_seccion4, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
@@ -351,6 +367,9 @@ public class Main_Lab7 extends javax.swing.JFrame {
                             .addComponent(jb_crearArchivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jb_crearCarpeta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(69, 69, 69))))
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jpb_seccion4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -369,17 +388,17 @@ public class Main_Lab7 extends javax.swing.JFrame {
                 .addContainerGap(128, Short.MAX_VALUE))
         );
 
-        jTabbedPane2.addTab("Agregar", jPanel7);
+        jtp_paneles.addTab("Agregar", jPanel7);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane2)
+            .addComponent(jtp_paneles)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(jtp_paneles, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -438,12 +457,13 @@ public class Main_Lab7 extends javax.swing.JFrame {
         int pos_objeto = -1;
         //Validar Padre
         if (jl_listaAgregar.getSelectedIndex() >= 0) {
+            ob_seleccionado = jl_listaAgregar.getSelectedValue();
             pos_objeto = jl_listaAgregar.getSelectedIndex();
             //Verificar si una carpeta fue elegida o un archivo
             //El nombre del padre solo puede ser una carpeta
-            if (root.get(pos_objeto) instanceof Carpeta) {
-                nombre_padre = ((Carpeta) root.get(pos_objeto)).getNombre_carpeta();
-                link_archivo = ((Carpeta) root.get(pos_objeto)).getLink_carpeta() + "/" + nombre_padre + "/";
+            if (ob_seleccionado instanceof Carpeta) {
+                nombre_padre = ((Carpeta) ob_seleccionado).getNombre_carpeta();
+                link_archivo = ((Carpeta) ob_seleccionado).getLink_carpeta() + "/" + nombre_padre + "/";
             } else {
                 nombre_padre = "Root";
                 link_archivo = "dive.google.com/Root/";
@@ -455,19 +475,14 @@ public class Main_Lab7 extends javax.swing.JFrame {
 
         if (crear) {
             link_archivo = crearLink(2, link_archivo);
-            System.out.println(link_archivo);
             //Crear Objeto
             Archivo a = new Archivo(nombre_archivo, link_archivo, extension, tamano, nombre_padre);
             //Agregar a lista archivo
             //verificar si esta dentro de una carpeta
-            if (jl_listaAgregar.getSelectedIndex() >= 0) {
-                if (root.get(jl_listaAgregar.getSelectedIndex()) instanceof Carpeta) {
-                    ((Carpeta) root.get(jl_listaAgregar.getSelectedIndex())).getLista_carpetas_archivos().add(a);
-                } else {
-                    root.add(a);
-                }
+
+            if (ob_seleccionado != null) {
+                ((Carpeta) ob_seleccionado).getLista_carpetas_archivos().add(a);
             } else {
-                //Si no eligio solo agrega directamente a la lista
                 root.add(a);
             }
 
@@ -492,20 +507,16 @@ public class Main_Lab7 extends javax.swing.JFrame {
         String link_carpeta = "";
         String nombre_padre = "";
         int pos_seleccionado = jl_listaAgregar.getSelectedIndex();
-
-        if (pos_seleccionado >= 0) {
-            //Verificar Objeto
-            if (root.get(pos_seleccionado) instanceof Carpeta) {
-                nombre_padre = ((Carpeta) root.get(pos_seleccionado)).getNombre_carpeta();
-                link_carpeta = ((Carpeta) root.get(pos_seleccionado)).getLink_carpeta() + "/";
-            } else {
-                nombre_padre = "Root";
-                link_carpeta = "dive.google.com/Root/";
+        ob_seleccionado = jl_listaAgregar.getSelectedValue();
+        //Verificar Objeto
+        if (ob_seleccionado != null) {
+            if (ob_seleccionado instanceof Carpeta) {
+                nombre_padre = ((Carpeta) ob_seleccionado).getNombre_carpeta();
+                link_carpeta = ((Carpeta) ob_seleccionado).getLink_carpeta() + "/" + nombre_carpeta + "/";
             }
-
         } else {
             nombre_padre = "Root";
-            link_carpeta = "dive.google.com/Root/";
+            link_carpeta = "dive.google.com/Root/" + nombre_carpeta + "/";
         }
         link_carpeta = crearLink(1, link_carpeta);
         System.out.println(link_carpeta);
@@ -513,34 +524,37 @@ public class Main_Lab7 extends javax.swing.JFrame {
         Carpeta c = new Carpeta(nombre_carpeta, link_carpeta, nombre_padre);
         //Agregar a Lista
         //verificar si esta dentro de una carpeta
-        if (jl_listaAgregar.getSelectedIndex() >= 0) {
-            if (root.get(jl_listaAgregar.getSelectedIndex()) instanceof Carpeta) {
-                ((Carpeta) root.get(jl_listaAgregar.getSelectedIndex())).getLista_carpetas_archivos().add(c);
-            } else {
-                root.add(c);
-            }
+        if (ob_seleccionado != null) {
+            ((Carpeta) ob_seleccionado).getLista_carpetas_archivos().add(c);
         } else {
-            //Si no eligio solo agrega directamente a la lista root
             root.add(c);
         }
         //Refrescar Lista
         refrescarListaPrincipal();
         JOptionPane.showMessageDialog(this, "Se creo exitosamente la Carpeta!!");
 
-
     }//GEN-LAST:event_jb_crearCarpetaMouseClicked
 
     private void jl_listaAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_listaAgregarMouseClicked
         //MetaDown
+
+        if (evt.isMetaDown()) {
+            jpm_Agregar.show(jl_listaAgregar, jl_listaAgregar.getX(), jl_listaAgregar.getY());
+
+        }
         //DoubleClick
         //Update Lista a la del objeto
         if (evt.getClickCount() == 2) {
             if (jl_listaAgregar.getSelectedIndex() >= 0) {
-                if (root.get(jl_listaAgregar.getSelectedIndex()) instanceof Carpeta) {
-                    //Conseguir Objeto
-                    Carpeta c = (Carpeta) root.get(jl_listaAgregar.getSelectedIndex());
-                    //RefrescarLista
 
+                ob_seleccionado = jl_listaAgregar.getSelectedValue();
+
+                // System.out.println(ob_seleccionado);                
+                if (ob_seleccionado instanceof Carpeta) {
+                    //Conseguir Objeto
+                    Carpeta c = (Carpeta) ob_seleccionado;
+
+                    //RefrescarLista
                     DefaultListModel model = new DefaultListModel();
 
                     //verificar Lista
@@ -566,15 +580,16 @@ public class Main_Lab7 extends javax.swing.JFrame {
         if (jl_listaAgregar.getSelectedIndex() >= 0) {
             //Conseguir Objeto
             int pos = jl_listaAgregar.getSelectedIndex();
-            if (root.get(pos) instanceof Archivo) {
-                jpb_seccion4.setString(((Archivo) root.get(pos)).getLink_archivo());
+            ob_seleccionado = jl_listaAgregar.getSelectedValue();
+
+            if (ob_seleccionado instanceof Archivo) {
+                jpb_seccion4.setString(((Archivo) ob_seleccionado).getLink_archivo());
             } else {
-                jpb_seccion4.setString(((Carpeta) root.get(pos)).getLink_carpeta());
+                jpb_seccion4.setString(((Carpeta) ob_seleccionado).getLink_carpeta());
             }
 
-        } else {
-            jpb_seccion4.setString("Agregar");
         }
+
     }//GEN-LAST:event_jl_listaAgregarMouseClicked
 
     private void jb_regresarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_regresarMouseClicked
@@ -586,10 +601,11 @@ public class Main_Lab7 extends javax.swing.JFrame {
         if (jl_listaPrincipal.getSelectedIndex() >= 0) {
             //Conseguir Objeto
             int pos = jl_listaPrincipal.getSelectedIndex();
-            if (root.get(pos) instanceof Archivo) {
-                jpb_seccion1.setString(((Archivo) root.get(pos)).getLink_archivo());
+            ob_seleccionado = jl_listaPrincipal.getSelectedValue();
+            if (ob_seleccionado instanceof Archivo) {
+                jpb_seccion1.setString(((Archivo) ob_seleccionado).getLink_archivo());
             } else {
-                jpb_seccion1.setString(((Carpeta) root.get(pos)).getLink_carpeta());
+                jpb_seccion1.setString(((Carpeta) ob_seleccionado).getLink_carpeta());
             }
         } else {
             jpb_seccion1.setString("Mi Unidad");
@@ -599,16 +615,16 @@ public class Main_Lab7 extends javax.swing.JFrame {
         //Update Lista a la del objeto
         if (evt.getClickCount() == 2) {
             if (jl_listaPrincipal.getSelectedIndex() >= 0) {
-                if (root.get(jl_listaPrincipal.getSelectedIndex()) instanceof Carpeta) {
-                    //Conseguir Objeto
-                    Carpeta c = (Carpeta) root.get(jl_listaPrincipal.getSelectedIndex());
-                    //RefrescarLista
+                ob_seleccionado = jl_listaPrincipal.getSelectedValue();
 
+                if (ob_seleccionado instanceof Carpeta) {
+                    Carpeta c = (Carpeta) ob_seleccionado;
+
+                    //Refrescar lista
                     DefaultListModel model = new DefaultListModel();
-
-                    //verificar Lista
+                    //Verificar lista
                     if (c.getLista_carpetas_archivos().isEmpty()) {
-                        //Do nothing
+                        //do nothing
                     } else {
                         for (Object o : c.getLista_carpetas_archivos()) {
                             if (o instanceof Archivo) {
@@ -618,7 +634,6 @@ public class Main_Lab7 extends javax.swing.JFrame {
                             }
                         }
                     }
-
                     jl_listaPrincipal.setModel(model);
                     jpb_seccion1.setString(c.getLink_carpeta());
                     //Right Click en Double Click
@@ -629,7 +644,6 @@ public class Main_Lab7 extends javax.swing.JFrame {
         //Right Click
         if (evt.isMetaDown()) {
             if (jl_listaPrincipal.getSelectedIndex() >= 0) {
-
                 jpmenu_Unidad.show(jl_listaPrincipal, jl_listaPrincipal.getX(), jl_listaPrincipal.getY());
             }
         }
@@ -642,23 +656,40 @@ public class Main_Lab7 extends javax.swing.JFrame {
 
     private void jmi_moverDestacadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_moverDestacadosActionPerformed
         //Mover elemento a lista de Favoritos
-        
-        int row = jl_listaPrincipal.getSelectedIndex();
-        ob_seleccionado = root.get(row);
-        //Agregar a lista de favoritos
+
+        //Conseguir objeto seleccionado
+        ob_seleccionado = jl_listaPrincipal.getSelectedValue();
+        //Agregar a lista de Favoritos
         af.getLista_favoritos().add(ob_seleccionado);
-        //Escribir lista de favoritos
+        //Escribir Lista de Favoritos
         af.escribirArchivos();
         //Refrescar Lista de Favoritos
         refrescarListaFavoritos();
         //Remover de la lista principal
-        root.remove(row);
-        //RefrescarLista Principal
+        if (ob_seleccionado instanceof Carpeta) {
+           root.remove(ob_seleccionado);
+        } else {
+            root.remove(ob_seleccionado);
+        }
+        //Refrescar Lista Principal
         refrescarListaPrincipal();
-        JOptionPane.showMessageDialog(this, "Se movio exitosamente");
-
+        JOptionPane.showMessageDialog(this, "Se agrego a favoritos exitosamente!!");
 
     }//GEN-LAST:event_jmi_moverDestacadosActionPerformed
+
+    private void jmi_CrearArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_CrearArchivoActionPerformed
+        //Evento Crear Archivo
+        jd_CrearArchivo.setModal(true);
+        jd_CrearArchivo.pack();
+        jd_CrearArchivo.setLocationRelativeTo(this);
+        jd_CrearArchivo.setVisible(true);
+    }//GEN-LAST:event_jmi_CrearArchivoActionPerformed
+
+    private void jtp_panelesStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jtp_panelesStateChanged
+        if (jtp_paneles.getSelectedIndex() == 3) {
+            ob_seleccionado = null;
+        }
+    }//GEN-LAST:event_jtp_panelesStateChanged
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -715,7 +746,6 @@ public class Main_Lab7 extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JButton jb_CrearArchivo;
     private javax.swing.JButton jb_crearArchivo;
     private javax.swing.JButton jb_crearCarpeta;
@@ -723,15 +753,19 @@ public class Main_Lab7 extends javax.swing.JFrame {
     private javax.swing.JButton jb_regresarDestacados;
     private javax.swing.JButton jb_regresarPrincipal;
     private javax.swing.JDialog jd_CrearArchivo;
-    private javax.swing.JList<String> jl_listaAgregar;
-    private javax.swing.JList<String> jl_listaFavoritos;
-    private javax.swing.JList<String> jl_listaPrincipal;
+    private javax.swing.JList<Object> jl_listaAgregar;
+    private javax.swing.JList<Object> jl_listaFavoritos;
+    private javax.swing.JList<Object> jl_listaPrincipal;
     private javax.swing.JList<String> jl_papeleria;
+    private javax.swing.JMenuItem jmi_CrearArchivo;
+    private javax.swing.JMenuItem jmi_CrearCarpeta;
     private javax.swing.JMenuItem jmi_moverDestacados;
     private javax.swing.JProgressBar jpb_seccion1;
     private javax.swing.JProgressBar jpb_seccion4;
+    private javax.swing.JPopupMenu jpm_Agregar;
     private javax.swing.JPopupMenu jpmenu_Unidad;
     private javax.swing.JSpinner js_tamano;
+    private javax.swing.JTabbedPane jtp_paneles;
     private javax.swing.JTextField tf_nombreArchivo;
     // End of variables declaration//GEN-END:variables
 

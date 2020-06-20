@@ -68,7 +68,7 @@ public class Admin_Favoritos {
                 ObjectInputStream objeto
                         = new ObjectInputStream(entrada);
                 try {
-                    while ((temp = (Archivo) objeto.readObject()) != null ) {
+                    while ((temp = (Object) objeto.readObject()) != null  ) {
                         lista_favoritos.add(temp);
                         
                     } 
