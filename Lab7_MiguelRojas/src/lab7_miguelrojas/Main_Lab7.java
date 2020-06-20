@@ -15,15 +15,15 @@ public class Main_Lab7 extends javax.swing.JFrame {
             af.cargarArchivo();
             refrescarListaFavoritos();
         }
-        
+
         if (ap.getArchivo().exists()) {
             ap.cargarArchivo();
             refrescarListaPapeleria();
         }
-        
+
         if (admin_p.getArchivo().exists()) {
             admin_p.cargarArchivo();
-            
+
             refrescarListaPrincipal();
         }
     }
@@ -52,9 +52,6 @@ public class Main_Lab7 extends javax.swing.JFrame {
         jmi_descargar = new javax.swing.JMenuItem();
         jmi_verDescargas = new javax.swing.JMenuItem();
         jmi_eliminar = new javax.swing.JMenuItem();
-        jpm_Agregar = new javax.swing.JPopupMenu();
-        jmi_CrearCarpeta = new javax.swing.JMenuItem();
-        jmi_CrearArchivo = new javax.swing.JMenuItem();
         jpm_destacados = new javax.swing.JPopupMenu();
         jmi_moverPapeleria = new javax.swing.JMenuItem();
         jd_Descargas = new javax.swing.JDialog();
@@ -193,17 +190,6 @@ public class Main_Lab7 extends javax.swing.JFrame {
             }
         });
         jpmenu_Unidad.add(jmi_eliminar);
-
-        jmi_CrearCarpeta.setText("Crear Nueva Carpeta");
-        jpm_Agregar.add(jmi_CrearCarpeta);
-
-        jmi_CrearArchivo.setText("Subir Archivo");
-        jmi_CrearArchivo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jmi_CrearArchivoActionPerformed(evt);
-            }
-        });
-        jpm_Agregar.add(jmi_CrearArchivo);
 
         jmi_moverPapeleria.setText("Mover a Papeleria");
         jmi_moverPapeleria.addActionListener(new java.awt.event.ActionListener() {
@@ -621,6 +607,7 @@ public class Main_Lab7 extends javax.swing.JFrame {
                 ((Carpeta) ob_seleccionado).getLista_carpetas_archivos().add(a);
             } else {
                 admin_p.getLista_principal().add(a);
+                admin_p.escribirArchivo();
             }
 
             //Refrescar Listas
@@ -657,6 +644,8 @@ public class Main_Lab7 extends javax.swing.JFrame {
             if (ob_seleccionado instanceof Carpeta) {
                 nombre_padre = ((Carpeta) ob_seleccionado).getNombre_carpeta();
                 link_carpeta = ((Carpeta) ob_seleccionado).getLink_carpeta() + "/" + nombre_carpeta + "/";
+            } else {
+                //do nothing
             }
         } else {
             nombre_padre = "Root";
@@ -669,9 +658,16 @@ public class Main_Lab7 extends javax.swing.JFrame {
         //Agregar a Lista
         //verificar si esta dentro de una carpeta
         if (ob_seleccionado != null) {
-            ((Carpeta) ob_seleccionado).getLista_carpetas_archivos().add(c);
+            if (ob_seleccionado instanceof Carpeta) {
+                ((Carpeta) ob_seleccionado).getLista_carpetas_archivos().add(c);
+            } else {
+                admin_p.getLista_principal().add(c);
+                admin_p.escribirArchivo();
+            }
+
         } else {
             admin_p.getLista_principal().add(c);
+            admin_p.escribirArchivo();
         }
         //Refrescar Lista
 
@@ -693,11 +689,6 @@ public class Main_Lab7 extends javax.swing.JFrame {
 
     private void jl_listaAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_listaAgregarMouseClicked
         //MetaDown
-
-        if (evt.isMetaDown()) {
-            jpm_Agregar.show(jl_listaAgregar, jl_listaAgregar.getX(), jl_listaAgregar.getY());
-
-        }
         //DoubleClick
         //Update Lista a la del objeto
         if (evt.getClickCount() == 2) {
@@ -824,22 +815,16 @@ public class Main_Lab7 extends javax.swing.JFrame {
         //Remover de la lista principal
         if (ob_seleccionado instanceof Carpeta) {
             admin_p.getLista_principal().remove(ob_seleccionado);
+            admin_p.escribirArchivo();
         } else {
             admin_p.getLista_principal().remove(ob_seleccionado);
+            admin_p.escribirArchivo();
         }
         //Refrescar Lista Principal
         refrescarListaPrincipal();
         JOptionPane.showMessageDialog(this, "Se agrego a favoritos exitosamente!!");
 
     }//GEN-LAST:event_jmi_moverDestacadosActionPerformed
-
-    private void jmi_CrearArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_CrearArchivoActionPerformed
-        //Evento Crear Archivo
-        jd_CrearArchivo.setModal(true);
-        jd_CrearArchivo.pack();
-        jd_CrearArchivo.setLocationRelativeTo(this);
-        jd_CrearArchivo.setVisible(true);
-    }//GEN-LAST:event_jmi_CrearArchivoActionPerformed
 
     private void jtp_panelesStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jtp_panelesStateChanged
         if (jtp_paneles.getSelectedIndex() == 3) {
@@ -859,26 +844,27 @@ public class Main_Lab7 extends javax.swing.JFrame {
     private void jmi_eliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_eliminarActionPerformed
         //Mandar objeto de lista principal a papeleria
         ob_seleccionado = jl_listaPrincipal.getSelectedValue();
-        
+
         ap.getLsita_papeleria().add(ob_seleccionado);
         ap.escribirArchivo();
         admin_p.getLista_principal().remove(ob_seleccionado);
+        admin_p.escribirArchivo();
         refrescarListaPapeleria();
         refrescarListaPrincipal();
-        JOptionPane.showMessageDialog(this,"Se movio a la papeleria el objeto");
-        
+        JOptionPane.showMessageDialog(this, "Se movio a la papeleria el objeto");
+
     }//GEN-LAST:event_jmi_eliminarActionPerformed
 
     private void jmi_moverPapeleriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmi_moverPapeleriaActionPerformed
         ob_seleccionado = jl_listaFavoritos.getSelectedValue();
-        
+
         ap.getLsita_papeleria().add(ob_seleccionado);
         ap.escribirArchivo();
         refrescarListaPapeleria();
         admin_p.getLista_principal().remove(ob_seleccionado);
-        
+
         refrescarListaPrincipal();
-        JOptionPane.showMessageDialog(this,"Se movio a la papeleria el objeto");
+        JOptionPane.showMessageDialog(this, "Se movio a la papeleria el objeto");
     }//GEN-LAST:event_jmi_moverPapeleriaActionPerformed
 
     private void jb_eliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_eliminarMouseClicked
@@ -889,7 +875,7 @@ public class Main_Lab7 extends javax.swing.JFrame {
                 ap.getLsita_papeleria().remove(ob_seleccionado);
                 ap.escribirArchivo();
                 refrescarListaPapeleria();
-                JOptionPane.showMessageDialog(this,"Se elimino el objeto completamente.");
+                JOptionPane.showMessageDialog(this, "Se elimino el objeto completamente.");
             } else {
                 //do nothing
             }
@@ -902,33 +888,32 @@ public class Main_Lab7 extends javax.swing.JFrame {
         ob_seleccionado = jl_listaPrincipal.getSelectedValue();
         int suma_tiempo = 0;
         if (ob_seleccionado instanceof Carpeta) {
-            
-            Carpeta c = ((Carpeta)ob_seleccionado);
+
+            Carpeta c = ((Carpeta) ob_seleccionado);
             for (int i = 0; i < c.getLista_carpetas_archivos().size(); i++) {
                 if (c.getLista_carpetas_archivos().get(i) instanceof Archivo) {
                     Archivo a1 = (Archivo) c.getLista_carpetas_archivos().get(i);
                     suma_tiempo += a1.getTamano();
-                }
-                else if (c.getLista_carpetas_archivos().get(i) instanceof Carpeta) {
+                } else if (c.getLista_carpetas_archivos().get(i) instanceof Carpeta) {
                     Carpeta c2 = (Carpeta) c.getLista_carpetas_archivos().get(i);
                     for (int j = 0; j < c2.getLista_carpetas_archivos().size(); j++) {
                         if (c2.getLista_carpetas_archivos().get(i) instanceof Archivo) {
-                            suma_tiempo += ((Archivo)c2.getLista_carpetas_archivos().get(i)).getTamano();
+                            suma_tiempo += ((Archivo) c2.getLista_carpetas_archivos().get(i)).getTamano();
                         }
                     }
                 }
-                
+
             }
         } else {
             //do nothing
-            
+
         }
     }//GEN-LAST:event_jmi_descargarActionPerformed
 
     private void jb_empezarDescargaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_empezarDescargaMouseClicked
-       Thread h = new Thread();
-       
-       
+        Thread h = new Thread();
+
+
     }//GEN-LAST:event_jb_empezarDescargaMouseClicked
 
     public static void main(String args[]) {
@@ -1003,8 +988,6 @@ public class Main_Lab7 extends javax.swing.JFrame {
     private javax.swing.JList<Object> jl_listaFavoritos;
     private javax.swing.JList<Object> jl_listaPrincipal;
     private javax.swing.JList<Object> jl_papeleria;
-    private javax.swing.JMenuItem jmi_CrearArchivo;
-    private javax.swing.JMenuItem jmi_CrearCarpeta;
     private javax.swing.JMenuItem jmi_descargar;
     private javax.swing.JMenuItem jmi_eliminar;
     private javax.swing.JMenuItem jmi_moverDestacados;
@@ -1012,7 +995,6 @@ public class Main_Lab7 extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_verDescargas;
     private javax.swing.JProgressBar jpb_seccion1;
     private javax.swing.JProgressBar jpb_seccion4;
-    private javax.swing.JPopupMenu jpm_Agregar;
     private javax.swing.JPopupMenu jpm_destacados;
     private javax.swing.JPopupMenu jpmenu_Unidad;
     private javax.swing.JSpinner js_tamano;
@@ -1025,7 +1007,7 @@ public class Main_Lab7 extends javax.swing.JFrame {
     Admin_Papeleria ap = new Admin_Papeleria("./papeleria.rojas");
     Admin_Principal admin_p = new Admin_Principal("./principal.rojas");
     Object ob_seleccionado;
-    
+
     public String crearLink(int op, String t) {
 
         String temp = "";
@@ -1102,10 +1084,10 @@ public class Main_Lab7 extends javax.swing.JFrame {
         }
         jl_listaFavoritos.setModel(modelo);
     }
-    
-    public void refrescarListaPapeleria(){
+
+    public void refrescarListaPapeleria() {
         DefaultListModel model = new DefaultListModel();
-        
+
         for (Object o : ap.getLsita_papeleria()) {
             if (o instanceof Archivo) {
                 model.addElement((Archivo) o);
@@ -1113,8 +1095,8 @@ public class Main_Lab7 extends javax.swing.JFrame {
                 model.addElement((Carpeta) o);
             }
         }
-        
+
         jl_papeleria.setModel(model);
     }
-    
+
 }
