@@ -8,21 +8,21 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
-public class Admin_Papeleria {
+public class Admin_Principal {
 
-    private ArrayList lista_papeleria = new ArrayList();
+    private ArrayList lista_principal = new ArrayList();
     private File archivo = null;
 
-    public Admin_Papeleria(String path) {
+    public Admin_Principal(String path) {
         archivo = new File(path);
     }
 
-    public ArrayList getLsita_papeleria() {
-        return lista_papeleria;
+    public ArrayList getLista_principal() {
+        return lista_principal;
     }
 
-    public void setLsita_papeleria(ArrayList lsita_papeleria) {
-        this.lista_papeleria = lsita_papeleria;
+    public void setLista_principal(ArrayList lista_principal) {
+        this.lista_principal = lista_principal;
     }
 
     public File getArchivo() {
@@ -35,17 +35,16 @@ public class Admin_Papeleria {
 
     @Override
     public String toString() {
-        return "Admin_Papeleria{" + "lsita_papeleria=" + lista_papeleria + ", archivo=" + archivo + '}';
+        return "Admin_Principal{" + "lista_principal=" + lista_principal + ", archivo=" + archivo + '}';
     }
 
     public void escribirArchivo() {
-
         FileOutputStream fw = null;
         ObjectOutputStream bw = null;
         try {
             fw = new FileOutputStream(archivo);
             bw = new ObjectOutputStream(fw);
-            for (Object c : lista_papeleria) {
+            for (Object c : lista_principal) {
                 bw.writeObject(c);
             }
             bw.flush();
@@ -57,12 +56,11 @@ public class Admin_Papeleria {
             } catch (Exception ex) {
             }
         }
-
     }
 
     public void cargarArchivo() {
         try {
-            lista_papeleria = new ArrayList();
+            lista_principal = new ArrayList();
             Object temp;
             if (archivo.exists()) {
                 FileInputStream entrada
@@ -71,7 +69,7 @@ public class Admin_Papeleria {
                         = new ObjectInputStream(entrada);
                 try {
                     while ((temp = (Object) objeto.readObject()) != null) {
-                        lista_papeleria.add(temp);
+                        lista_principal.add(temp);
 
                     }
                 } catch (EOFException e) {
@@ -84,4 +82,5 @@ public class Admin_Papeleria {
             ex.printStackTrace();
         }
     }
+
 }
