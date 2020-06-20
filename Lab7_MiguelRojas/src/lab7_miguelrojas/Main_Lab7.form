@@ -471,7 +471,7 @@
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                                  <Component id="jProgressBar4" min="-2" pref="477" max="-2" attributes="0"/>
+                                  <Component id="jpb_seccion2" min="-2" pref="477" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace pref="53" max="32767" attributes="0"/>
@@ -482,7 +482,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jProgressBar4" min="-2" pref="35" max="-2" attributes="0"/>
+                          <Component id="jpb_seccion2" min="-2" pref="35" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -495,11 +495,14 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JProgressBar" name="jProgressBar4">
+                <Component class="javax.swing.JProgressBar" name="jpb_seccion2">
                   <Properties>
                     <Property name="string" type="java.lang.String" value="Favoritos"/>
                     <Property name="stringPainted" type="boolean" value="true"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jpb_seccion2MouseClicked"/>
+                  </Events>
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane3">
                   <AuxValues>
@@ -532,6 +535,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="&lt;"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jb_regresarDestacadosMouseClicked"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -628,6 +634,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="&lt;"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jb_regresar3MouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="jb_eliminar">
                   <Properties>

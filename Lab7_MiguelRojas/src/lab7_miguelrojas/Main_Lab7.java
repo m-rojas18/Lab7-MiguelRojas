@@ -70,7 +70,7 @@ public class Main_Lab7 extends javax.swing.JFrame {
         jl_listaPrincipal = new javax.swing.JList<>();
         jb_regresarPrincipal = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        jProgressBar4 = new javax.swing.JProgressBar();
+        jpb_seccion2 = new javax.swing.JProgressBar();
         jScrollPane3 = new javax.swing.JScrollPane();
         jl_listaFavoritos = new javax.swing.JList<>();
         jLabel4 = new javax.swing.JLabel();
@@ -335,8 +335,13 @@ public class Main_Lab7 extends javax.swing.JFrame {
 
         jtp_paneles.addTab("Mi Unidad", jPanel2);
 
-        jProgressBar4.setString("Favoritos");
-        jProgressBar4.setStringPainted(true);
+        jpb_seccion2.setString("Favoritos");
+        jpb_seccion2.setStringPainted(true);
+        jpb_seccion2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jpb_seccion2MouseClicked(evt);
+            }
+        });
 
         jl_listaFavoritos.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -348,6 +353,11 @@ public class Main_Lab7 extends javax.swing.JFrame {
         jLabel4.setText("Lista de Favoritos");
 
         jb_regresarDestacados.setText("<");
+        jb_regresarDestacados.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_regresarDestacadosMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -365,14 +375,14 @@ public class Main_Lab7 extends javax.swing.JFrame {
                             .addComponent(jLabel4)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(33, 33, 33)
-                        .addComponent(jProgressBar4, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jpb_seccion2, javax.swing.GroupLayout.PREFERRED_SIZE, 477, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jProgressBar4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jpb_seccion2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
@@ -392,6 +402,11 @@ public class Main_Lab7 extends javax.swing.JFrame {
         jLabel5.setText("Lista de Papeleria");
 
         jb_regresar3.setText("<");
+        jb_regresar3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jb_regresar3MouseClicked(evt);
+            }
+        });
 
         jb_eliminar.setText("Eliminar");
         jb_eliminar.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -916,6 +931,29 @@ public class Main_Lab7 extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jb_empezarDescargaMouseClicked
 
+    private void jb_regresar3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_regresar3MouseClicked
+        // TODO add your handling code here:
+        refrescarListaPapeleria();
+    }//GEN-LAST:event_jb_regresar3MouseClicked
+
+    private void jb_regresarDestacadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jb_regresarDestacadosMouseClicked
+        // TODO add your handling code here:
+        refrescarListaFavoritos();
+    }//GEN-LAST:event_jb_regresarDestacadosMouseClicked
+
+    private void jpb_seccion2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jpb_seccion2MouseClicked
+        if (jl_listaFavoritos.getSelectedIndex() >= 0) {
+            ob_seleccionado = jl_listaFavoritos.getSelectedValue();
+
+            if (ob_seleccionado instanceof Carpeta) {
+                jpb_seccion2.setString(((Carpeta)ob_seleccionado).getLink_carpeta());
+            } else {
+                jpb_seccion2.setString(((Archivo)ob_seleccionado).getLink_archivo());
+            }
+            
+        }
+    }//GEN-LAST:event_jpb_seccion2MouseClicked
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -966,7 +1004,6 @@ public class Main_Lab7 extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JProgressBar jProgressBar1;
-    private javax.swing.JProgressBar jProgressBar4;
     private javax.swing.JProgressBar jProgressBar5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -994,6 +1031,7 @@ public class Main_Lab7 extends javax.swing.JFrame {
     private javax.swing.JMenuItem jmi_moverPapeleria;
     private javax.swing.JMenuItem jmi_verDescargas;
     private javax.swing.JProgressBar jpb_seccion1;
+    private javax.swing.JProgressBar jpb_seccion2;
     private javax.swing.JProgressBar jpb_seccion4;
     private javax.swing.JPopupMenu jpm_destacados;
     private javax.swing.JPopupMenu jpmenu_Unidad;
